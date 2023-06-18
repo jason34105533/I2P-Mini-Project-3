@@ -5,17 +5,36 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
+#define VALUE_PAWN 100
+#define VALUE_KNIGHT 310
+#define VALUE_BISHOP 320
+#define VALUE_ROOK 500
+#define VALUE_QUEEN 900
+#define VALUE_KING 10000
+
+int Max(int a,int b){return (a>b)?a:b;}
+int min(int a,int b){return (a<b)?a:b;}
+
+int point[7] = {0,VALUE_PAWN,VALUE_ROOK,VALUE_KNIGHT,VALUE_KING,VALUE_QUEEN,VALUE_BISHOP};
 
 /**
  * @brief evaluate the state
  * 
  * @return int 
  */
-int State::evaluate(){
+int State::evaluate(){  //以自己為主
+  int value = 0,oppo = 1-player;
   // [TODO] design your own evaluation function
-  return 0;
-}
 
+  for(int i=0;i<BOARD_H;i++){
+    for(int j=0;j<BOARD_W;j++){
+      value += point[board.board[player][i][j]];
+      value -= point[board.board[oppo][i][j]];
+    }
+  }
+  
+  return value;
+}
 
 /**
  * @brief return next state after the move
@@ -212,10 +231,11 @@ void State::get_legal_actions(){
 }
 
 
-const char piece_table[2][7][5] = {
-  {" ", "♙", "♖", "♘", "♗", "♕", "♔"},
-  {" ", "♟", "♜", "♞", "♝", "♛", "♚"}
-};
+// const char piece_table[2][7][5] = {
+//   {" ", "♙", "♖", "♘", "♗", "♕", "♔"},
+//   {" ", "♟", "♜", "♞", "♝", "♛", "♚"}
+// };
+
 /**
  * @brief encode the output for command line output
  * 

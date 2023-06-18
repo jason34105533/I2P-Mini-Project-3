@@ -3,7 +3,7 @@
 #include <vector>
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/alphabeta.hpp"
+#include "../policy/minimax.hpp"
 
 using namespace std;
 
@@ -44,7 +44,7 @@ void write_valid_spot(std::ofstream& fout) {
   while(true) {
     // Choose a spot.
     
-    auto move = Alphabeta::get_move(root,3);
+    auto move = Minimax::get_move(root,4);
     
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
