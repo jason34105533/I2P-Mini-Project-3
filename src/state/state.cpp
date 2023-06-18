@@ -5,17 +5,68 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-#define VALUE_PAWN 100
-#define VALUE_KNIGHT 310
-#define VALUE_BISHOP 320
-#define VALUE_ROOK 500
-#define VALUE_QUEEN 900
-#define VALUE_KING 10000
+#define VALUE_PAWN 10
+#define VALUE_ROOK 50
+#define VALUE_KNIGHT 30
+#define VALUE_BISHOP 30
+#define VALUE_QUEEN 100
+#define VALUE_KING 900
 
-int Max(int a,int b){return (a>b)?a:b;}
-int min(int a,int b){return (a<b)?a:b;}
+int point[7] = {0,VALUE_PAWN,VALUE_ROOK,VALUE_KNIGHT,VALUE_BISHOP,VALUE_QUEEN,VALUE_KING};
+int position[7][6][5] ={
+  {//pawn
+  {0,0,0,0,0},\
+  {0,0,0,0,0},\
+  {0,0,0,0,0},\
+  {0,0,0,0,0},\
+  {0,0,0,0,0},\
+  {0,0,0,0,0}
+},
+  {//pawn
+  {0,0,0,0,0},\
+  {5,5,5,5,5},\
+  {1,2,3,2,1},\
+  {0,-1,-1,-1,0},\
+  {0,-1,-2,-1,0},\
+  {0,0,0,0,0}
+},{//rook
+  {0,0,0,0,0},\
+  {0,1,1,1,0},\
+  {0,0,0,0,0},\
+  {0,0,0,0,0},\
+  {0,0,0,0,0},\
+  {0,0,1,0,0}
+},{//knight
+  {-5,-4,-3,-4,-5},\
+  {-4,-1,0,-1,-4},\
+  {-3,0,2,0,-3},\
+  {-3,0,2,0,-3},\
+  {-4,-1,0,-1,-5},\
+  {-5,-4,-3,-4,-5}
+},{//bishop
+  {-2,-1,-1,-1,-2},\
+  {-1,0,0,0,-1},\
+  {-1,0,1,0,-1},\
+  {-1,0,1,0,-1},\
+  {-1,0,0,0,-1},\
+  {-2,-1,-1,-1,-2}
+},{//queen
+  {-2,-1,0,-1,-2},\
+  {-1,0,0,0,-1},\
+  {-1,0,0,0,-1},\
+  {0,0,0,0,-1},\
+  {-1,0,0,0,-1},\
+  {-2,-1,0,-1,-2}
+},{//king
+  {-4,-5,-5,-5,-4},\
+  {-3,-5,-5,-5,-3},\
+  {-3,-5,-5,-5,-3},\
+  {-2,-3,-3,-3,-2},\
+  {1,0,0,0,1},\
+  {3,1,0,1,3}
+}
+};
 
-int point[7] = {0,VALUE_PAWN,VALUE_ROOK,VALUE_KNIGHT,VALUE_KING,VALUE_QUEEN,VALUE_BISHOP};
 
 /**
  * @brief evaluate the state
@@ -26,10 +77,18 @@ int State::evaluate(){  //以自己為主
   int value = 0,oppo = 1-player;
   // [TODO] design your own evaluation function
 
+
   for(int i=0;i<BOARD_H;i++){
     for(int j=0;j<BOARD_W;j++){
-      value += point[board.board[player][i][j]];
-      value -= point[board.board[oppo][i][j]];
+      value += point[board.board[player][i][j] - '\0'];
+      value+=position[board.board[player][i][j]- '\0'][i][j];
+    }
+  }
+
+  for(int i=0;i<BOARD_H;i++){
+    for(int j=0;j<BOARD_W;j++){
+      value -= point[board.board[oppo][i][j]- '\0'];
+      value-=position[board.board[oppo][i][j]- '\0'][i][j];
     }
   }
   
@@ -231,10 +290,10 @@ void State::get_legal_actions(){
 }
 
 
-// const char piece_table[2][7][5] = {
-//   {" ", "♙", "♖", "♘", "♗", "♕", "♔"},
-//   {" ", "♟", "♜", "♞", "♝", "♛", "♚"}
-// };
+const char piece_table[2][7][5] = {
+  {" ", "♙", "♖", "♘", "♗", "♕", "♔"},
+  {" ", "♟", "♜", "♞", "♝", "♛", "♚"}
+};
 
 /**
  * @brief encode the output for command line output
