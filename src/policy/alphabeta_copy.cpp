@@ -40,7 +40,6 @@ int Alphabeta_copy::evaluate(State *state,int depth,int alpha,int beta,int ismax
   else{
     if(ismax){  //我正在下
       int value = -1e6;
-      if(state->game_state == WIN) return 1e6;
       for(auto &action:actions){
         int eva = evaluate(state->next_state(action),depth-1,alpha,beta,0,me);
         value = std::max(value,eva);
@@ -51,7 +50,6 @@ int Alphabeta_copy::evaluate(State *state,int depth,int alpha,int beta,int ismax
     }
     else{
       int value = 1e6;
-      if(state->game_state == WIN) return -1e6;
       for(auto &action:actions){
         int eva = evaluate(state->next_state(action),depth-1,alpha,beta,1,me);
         value = std::min(value,eva);

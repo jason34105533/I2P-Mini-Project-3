@@ -39,7 +39,6 @@ int Minimax::evaluate(State *state,int depth,int ismax,int me){
   else{
     if(ismax){  //我正在下
       int value = -1e6;
-      if(state->game_state == WIN) return 1e6;
       State* cal;
       for(auto &action:actions){
         cal = state->next_state(action);
@@ -49,7 +48,6 @@ int Minimax::evaluate(State *state,int depth,int ismax,int me){
     }
     else{
       int value = 1e6;
-      if(state->game_state == WIN) return -1e6;
       State *cal;
       for(auto &action:actions){
         cal = state->next_state(action);
