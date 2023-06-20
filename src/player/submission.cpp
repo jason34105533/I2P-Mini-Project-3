@@ -3,7 +3,7 @@
 #include <vector>
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/alphabeta_copy.hpp"
+#include "../policy/submission.hpp"
 
 State* root;
 
@@ -39,14 +39,16 @@ void read_board(std::ifstream& fin) {
  */
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
-  while(true) {
+  int depth = 1;
+  while(depth<7) {
     // Choose a spot.
-      auto move = Alphabeta_copy::get_move(root,6);    
+      auto move = Submission::get_move(root,depth);
       fout << move.first.first << " " << move.first.second << " "\
           << move.second.first << " " << move.second.second << std::endl;
     // Remember to flush the output to ensure the last action is written to file.
+    depth++;
     fout.flush();
-    break;
+    //break;
   }
 }
 
