@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include "../state/state.hpp"
-#include "./alphabeta.hpp"
+#include "./alphabeta_copy.hpp"
 /**
  * @brief get a legal action
  * 
@@ -12,9 +12,7 @@
  * @return Move 
  */
 
-//std::unordered_map<std::string,int> MAP;
-
-Move Alphabeta::get_move(State *state, int depth){
+Move Alphabeta_copy::get_move(State *state, int depth){
 
   if(!state->legal_actions.size()) state->get_legal_actions();
   auto actions = state->legal_actions;
@@ -29,7 +27,7 @@ Move Alphabeta::get_move(State *state, int depth){
 }
 
 
-int Alphabeta::evaluate(State *state,int depth,int alpha,int beta,int ismax,int me){
+int Alphabeta_copy::evaluate(State *state,int depth,int alpha,int beta,int ismax,int me){
 
   if(!state->legal_actions.size()) state->get_legal_actions();
   auto actions = state->legal_actions;

@@ -43,8 +43,6 @@ enum GameState {
 class State{
   public:
     //You may want to add more property for a state
-    int n = 0;
-    int N = 0;
     GameState game_state = UNKNOWN;
     Board board;
     int player = 0;
@@ -56,11 +54,19 @@ class State{
     State(Board board, int player): board(board), player(player){};
     
     int evaluate();
-    int evaluate(int depth,int alpha,int beta,int ismax,int me);
     State* next_state(Move move);
     void get_legal_actions();
     std::string encode_output();
     std::string encode_state();
+
+    bool operator<(const State&B) const{
+      for(int i=0;i<BOARD_H;i++){
+        for(int j=0;j<BOARD_W;j++){
+          if(board.board[i][j]!=B.board.board[i][j]) return board.board[i][j]<B.board.board[i][j];
+        }
+      }
+      return player<B.player;
+    }
 };
 
 #endif
